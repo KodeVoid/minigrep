@@ -117,23 +117,17 @@ jobs:
       - name: Create archive
         shell: bash
         run: |
-          # Get the binary name from Cargo.toml
           BINARY_NAME=$(grep '^name = ' Cargo.toml | head -n1 | cut -d '"' -f2)
           
-          # Set binary extension for Windows
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             BINARY_EXT=".exe"
           else
             BINARY_EXT=""
           fi
           
-          # Create directory structure
           mkdir -p release/${{ matrix.name }}
-          
-          # Copy binary
           cp target/${{ matrix.target }}/release/${BINARY_NAME}${BINARY_EXT} release/${{ matrix.name }}/
           
-          # Copy additional files (README, LICENSE, etc.)
           if [ -f README.md ]; then
             cp README.md release/${{ matrix.name }}/
           fi
@@ -141,7 +135,6 @@ jobs:
             cp LICENSE release/${{ matrix.name }}/
           fi
           
-          # Create archive
           cd release
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             7z a ../${{ matrix.name }}.zip ${{ matrix.name }}
@@ -263,15 +256,15 @@ jobs:
 
       - name: Generate build summary
         run: |
-          echo "## 🦀 Rust Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Rust Build Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### ✅ Build Status" >> $GITHUB_STEP_SUMMARY
+          echo "### Build Status" >> $GITHUB_STEP_SUMMARY
           echo "- All platform builds completed successfully" >> $GITHUB_STEP_SUMMARY
-          echo "- Tests passed ✓" >> $GITHUB_STEP_SUMMARY
-          echo "- Code formatting ✓" >> $GITHUB_STEP_SUMMARY
-          echo "- Clippy linting ✓" >> $GITHUB_STEP_SUMMARY
+          echo "- Tests passed" >> $GITHUB_STEP_SUMMARY
+          echo "- Code formatting valid" >> $GITHUB_STEP_SUMMARY
+          echo "- Clippy linting passed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📦 Available Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "### Available Artifacts" >> $GITHUB_STEP_SUMMARY
           echo "- Linux x86_64" >> $GITHUB_STEP_SUMMARY
           echo "- Linux ARM64" >> $GITHUB_STEP_SUMMARY  
           echo "- Windows x86_64" >> $GITHUB_STEP_SUMMARY
@@ -290,21 +283,21 @@ jobs:
             });
             
             const botComment = comments.find(comment => 
-              comment.user.type === 'Bot' && comment.body.includes('🦀 Rust Build Report')
+              comment.user.type === 'Bot' && comment.body.includes('Rust Build Report')
             );
             
-            const body = `## 🦀 Rust Build Report
+            const body = `## Rust Build Report
             
-**Build Status:** ✅ All checks passed!
+Build Status: All checks passed
 
-### 📊 Summary
-- ✅ Cross-platform builds completed
-- ✅ Tests passed  
-- ✅ Code formatting valid
-- ✅ Clippy linting passed
-- ✅ Security audit clean
+### Summary
+- Cross-platform builds completed
+- Tests passed  
+- Code formatting valid
+- Clippy linting passed
+- Security audit clean
 
-### 📦 Available Platforms
+### Available Platforms
 | Platform | Status | Artifact |
 |----------|---------|----------|
 | Linux x86_64 | ✅ | Available |
@@ -313,8 +306,7 @@ jobs:
 | macOS x86_64 | ✅ | Available |
 | macOS ARM64 | ✅ | Available |
 
-**Download artifacts from the [Actions tab](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})**
-            `;
+Download artifacts from the [Actions tab](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`
             
             if (botComment) {
               github.rest.issues.updateComment({
