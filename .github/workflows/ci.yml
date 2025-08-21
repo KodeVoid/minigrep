@@ -299,25 +299,25 @@ jobs:
             
             const body = `## Rust Build Report
 
-### Summary
-- Cross-platform builds completed
-- Tests passed  
-- Code formatting valid
-- Clippy linting passed
-- Security audit clean
+# ### Summary
+# - Cross-platform builds completed
+# - Tests passed  
+# - Code formatting valid
+# - Clippy linting passed
+# - Security audit clean
 
-### Available Platforms
-| Platform | Status | Artifact |
-|----------|---------|----------|
-| Linux x86_64 | Passed | Available |
-| Linux ARM64 | Passed | Available |
-| Windows x86_64 | Passed | Available |
-| macOS x86_64 | Passed | Available |
-| macOS ARM64 | Passed | Available |
+# ### Available Platforms
+# | Platform | Status | Artifact |
+# |----------|---------|----------|
+# | Linux x86_64 | Passed | Available |
+# | Linux ARM64 | Passed | Available |
+# | Windows x86_64 | Passed | Available |
+# | macOS x86_64 | Passed | Available |
+# | macOS ARM64 | Passed | Available |
 
-Download artifacts from the [Actions tab](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
+# Download artifacts from the [Actions tab](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
             
-            if (botComment) {
+#             if (botComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
