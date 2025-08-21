@@ -282,7 +282,7 @@ jobs:
           echo "- macOS x86_64" >> $GITHUB_STEP_SUMMARY
           echo "- macOS ARM64" >> $GITHUB_SUMMARY
 
-      - name: Comment PR
+     - name: Comment PR
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -297,27 +297,29 @@ jobs:
               comment.user.type === 'Bot' && comment.body.includes('Rust Build Report')
             );
             
-            const body = `## Rust Build Report
-
-# ### Summary
-# - Cross-platform builds completed
-# - Tests passed  
-# - Code formatting valid
-# - Clippy linting passed
-# - Security audit clean
-
-# ### Available Platforms
-# | Platform | Status | Artifact |
-# |----------|---------|----------|
-# | Linux x86_64 | Passed | Available |
-# | Linux ARM64 | Passed | Available |
-# | Windows x86_64 | Passed | Available |
-# | macOS x86_64 | Passed | Available |
-# | macOS ARM64 | Passed | Available |
-
-# Download artifacts from the [Actions tab](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
+            const body = [
+              '## Rust Build Report',
+              '',
+              '### Summary',
+              '- Cross-platform builds completed',
+              '- Tests passed',
+              '- Code formatting valid', 
+              '- Clippy linting passed',
+              '- Security audit clean',
+              '',
+              '### Available Platforms',
+              '| Platform | Status | Artifact |',
+              '|----------|---------|----------|',
+              '| Linux x86_64 | Passed | Available |',
+              '| Linux ARM64 | Passed | Available |',
+              '| Windows x86_64 | Passed | Available |',
+              '| macOS x86_64 | Passed | Available |',
+              '| macOS ARM64 | Passed | Available |',
+              '',
+              `Download artifacts from the [Actions tab](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`
+            ].join('\n');
             
-#             if (botComment) {
+            if (botComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
