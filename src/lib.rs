@@ -40,7 +40,22 @@ impl From<(String, String)> for Config {
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents =
-        fs::read_to_string(config.file_path)?;
+        fs::read_to_string(&config.file_path)?;
     println!("With Text:\n{contents}");
+    let output:Vec<&str>=search(&config.query,&contents);
+    println!("{:?}",output );
     Ok(())
+}
+
+
+fn search<'a>(query:&'a String,contents:&'a String)->Vec<&'a str>{
+
+    let mut content:Vec<&str>=Vec::new();
+    for line in contents.lines(){
+        if line.contains(query){
+            content.push(line);
+        }
+    }
+    content
+
 }
